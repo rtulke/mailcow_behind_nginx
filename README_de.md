@@ -36,7 +36,7 @@ https://wiki.ubuntuusers.de/sources.list/
 cat /etc/apt/sources.list
 ```
 
-*Für Debian 12*
+**Für Debian 12**
 ```
 ## Official Debian Packages (bookworm 12)
 deb http://deb.debian.org/debian/ bookworm contrib main non-free non-free-firmware
@@ -53,7 +53,7 @@ deb http://deb.debian.org/debian-security/ bookworm-security contrib main non-fr
 # deb-src http://deb.debian.org/debian-security/ bookworm-security contrib main non-free non-free-firmware
 ```
 
-*Für Ubuntu 22.04*
+**Für Ubuntu 22.04**
 ```
 ## Official Ubuntu Packages (jammy 22.04)
 deb http://archive.ubuntu.com/ubuntu/ jammy main restricted universe multiverse
