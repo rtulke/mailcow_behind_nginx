@@ -3,7 +3,7 @@
 1. [Mailcow mit Nginx Reverse Proxy](#Mailcow-mit-Nginx-Reverse-Proxy)
 2. [Überblick](#Überblick)
 3. [Voraussetzungen](#Voraussetzungen)
-4. [Für Debian 12](#Für-Debian-12)
+4. [Für Debian 12](##Für-Debian-12)
 5. [Configuration File](#configuration-file)
 6. [Proxy Formats and Sources](#proxy-formats-and-sources)
 7. [Anonymity Levels](#anonymity-levels)
