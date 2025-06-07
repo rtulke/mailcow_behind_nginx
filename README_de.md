@@ -91,12 +91,13 @@ sudo apt update && sudo apt upgrade -y
 sudo apt install ansible git -y
 ```
 
-
 ## Standard Installation von Mailcow
 
 Die Installation basiert auf der Standard Installationsanleitung von Mailcow https://docs.mailcow.email/getstarted/install/#start-mailcow
 
 ### Standard Installation von Docker und mailcow gemäss Anleitung
+
+Dieser Teil der Installation basiert im wesentlichen auf der originalen Installationsanleitung von Mailcow.
 
 #### Docker Installieren (als root)
 
@@ -118,23 +119,23 @@ git clone https://github.com/mailcow/mailcow-dockerized
 cd mailcow-dockerized
 ```
 
-#### Setup Mailcow hinter einem Nginx Proxy
+#### Clonen dieses Repositorys
 
 ```bash
 cd /opt
-git clone https://github.com/rtulke/mailcow_behind_nginx_proxy.git
+git clone https://github.com/rtulke/mailcow_behind_nginx.git
+cd mailcow_behind_nginx
 ```
 
-
-**vars.yml bearbeiten:**
+Wir bearbeiten die Datei `/opt/mailcow_behind_nginx/vars.yml`
 ```yaml
 # Deine Domain für den Mailserver
-mail_domain_name: "mail.deine-domain.com"
+mail_domain_name: "mail.deinedomain.de"
 
 # Admin Email für Let's Encrypt Benachrichtigungen
-admin_email: "admin@deine-domain.com"
+admin_email: "admin@deinedomain.de"
 
-# Server Details (für Remote Installation)
+# Server Details (für Ansible Remote Installation)
 target_server_ip: "192.168.1.100"
 ansible_ssh_user: "root"
 ssh_key_path: "~/.ssh/id_rsa"
