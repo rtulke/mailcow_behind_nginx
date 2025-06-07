@@ -4,8 +4,6 @@ Dieses Ansible Playbook automatisiert die Installation und Konfiguration einer M
 
 ## Überblick
 
-Das Setup basiert auf dem Artikel von [wittamore.com](https://wittamore.com/articles/2025/Mailcow-with-Nginx-reverse-proxy.html) und implementiert:
-
 - **Nginx Reverse Proxy** mit SSL-Terminierung
 - **Mailcow Dockerized** Setup
 - **Let's Encrypt** automatische Zertifikatserstellung
