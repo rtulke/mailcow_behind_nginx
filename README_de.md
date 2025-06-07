@@ -2,19 +2,29 @@
 
 1. [Mailcow mit Nginx Reverse Proxy](#Mailcow-mit-Nginx-Reverse-Proxy)
 2. [Überblick](#Überblick)
-3. [Voraussetzungen](#Voraussetzungen)
-4. [Aktuelle Paket Repository Quellen Sicherstellen](#Aktuelle-Paket-Repository-Quellen-Sicherstellen)
-5. [System aktualisieren und Ansible als auch Git installieren](#System-aktualisieren-und-Ansible-als-auch-Git-installieren)
-6. [Output Formats](#output-formats)
-7. [Performance Optimization](#performance-optimization)
-8. [Advanced Features](#advanced-features)
-9. [Troubleshooting](#troubleshooting)
+3. [Überblick](#Überblick)
+4. [Voraussetzungen](#Voraussetzungen)
+5. [Aktuelle Paket Repository Quellen Sicherstellen](#Aktuelle-Paket-Repository-Quellen-Sicherstellen)
+6. [System aktualisieren und Ansible als auch Git installieren](#System-aktualisieren-und-Ansible-als-auch-Git-installieren)
+7. [Output Formats](#output-formats)
+8. [Performance Optimization](#performance-optimization)
+9. [Advanced Features](#advanced-features)
+10. [Troubleshooting](#troubleshooting)
 12. [Examples](#examples)
 13. [Reference Proxy-Lists](#Reference-Proxy-Lists)
 
 # Mailcow mit Nginx Reverse Proxy
 
 Dieses Ansible Playbook automatisiert die Installation und Konfiguration einer Mailcow-Instanz mit Nginx als Reverse Proxy, inklusive automatischer SSL-Zertifikat-Verwaltung über Let's Encrypt. Ich gehe in diesem Setup davon aus, das Du ein frisches APT-basiertes System vor Dir hast und Mailcow noch nicht installiert wurde.
+
+## Vorbedingungen "Mailcow" Server
+
+- Linux Server (Debian/Ubuntu empfohlen)
+- Root-Zugriff oder sudo-berechtigt
+- Öffentliche IP-Adresse vorhanden
+- Domain z.B. mail.deinedomain.de zeigt auf Server-IP (Öffentliche IP)
+- Ports 80, 443, 25, 465, 587, 993, 995 sind von aussen erreichbar
+
 
 ## Überblick
 
@@ -79,13 +89,6 @@ deb http://archive.canonical.com/ubuntu/ jammy partner
 sudo apt update && sudo apt upgrade -y && sudo apt install -y ansible git
 ```
 
-## Vorbedingungen "Mailcow" Server
-
-- Linux Server (Debian/Ubuntu empfohlen)
-- Root-Zugriff oder sudo-berechtigt
-- Öffentliche IP-Adresse vorhanden
-- Domain z.B. mail.deinedomain.de zeigt auf Server-IP (Öffentliche IP)
-- Ports 80, 443, 25, 465, 587, 993, 995 sind von aussen erreichbar
 
 ## Installation
 
