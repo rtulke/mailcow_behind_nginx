@@ -87,7 +87,8 @@ deb http://archive.canonical.com/ubuntu/ jammy partner
 ### System aktualisieren und Ansible als auch Git installieren
 ```bash
 # Ubuntu/Debian 
-sudo apt update && sudo apt upgrade -y && sudo apt install -y ansible git
+sudo apt update && sudo apt upgrade -y
+sudo apt install ansible git -y
 ```
 
 
