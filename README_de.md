@@ -1,7 +1,7 @@
 ## Table of Contents
 
-1. [Installation](#Mailcow mit Nginx Reverse Proxy - Ansible Automation)
-2. [Installing OS wide (Debian based Distributions)](#Installing-OS-wide)
+1. [Mailcow mit Nginx Reverse Proxy](#Mailcow-mit-Nginx-Reverse-Proxy)
+2. [Überblick](#Überblick)
 3. [Basic Usage](#basic-usage)
 4. [Command Line Arguments](#command-line-arguments)
 5. [Configuration File](#configuration-file)
@@ -14,7 +14,7 @@
 12. [Examples](#examples)
 13. [Reference Proxy-Lists](#Reference-Proxy-Lists)
 
-# Mailcow mit Nginx Reverse Proxy - Ansible Automation
+# Mailcow mit Nginx Reverse Proxy
 
 Dieses Ansible Playbook automatisiert die Installation und Konfiguration einer Mailcow-Instanz mit Nginx als Reverse Proxy, inklusive automatischer SSL-Zertifikat-Verwaltung über Let's Encrypt. Wir gehen hier davon aus das ihr ein frisches System habt und Mailcow noch nicht installiert wurde!
 
