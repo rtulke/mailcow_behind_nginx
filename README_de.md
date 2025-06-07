@@ -6,7 +6,7 @@
 4. [Aktuelle Paket Repository Quellen Sicherstellen](#Aktuelle-Paket-Repository-Quellen-Sicherstellen)
 5. [Für Debian 12](#Für-Debian-12)
 6. [Für Ubuntu 22.04](#Für-Ubuntu-22.04)
-7. [Anonymity Levels](#anonymity-levels)
+7. [System aktualisieren und Ansible als auch Git installieren](#System-aktualisieren-und-Ansible-als-auch-Git-installieren)
 8. [Output Formats](#output-formats)
 9. [Performance Optimization](#performance-optimization)
 10. [Advanced Features](#advanced-features)
