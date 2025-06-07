@@ -26,9 +26,7 @@ Dieses Ansible Playbook automatisiert die Installation und Konfiguration einer M
 - Ports 80, 443, 25, 465, 587, 993, 995 sind von aussen erreichbar
 
 
-## Überblick
-
-Was wird installiert und konfiguriert?
+## Was wird installiert und konfiguriert?
 
 - **Nginx Reverse Proxy** mit SSL-Terminierung
 - **Mailcow Dockerized** Setup
