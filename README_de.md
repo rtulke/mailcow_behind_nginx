@@ -28,10 +28,6 @@ Dieses Ansible Playbook automatisiert die Installation und Konfiguration einer M
 
 ### Aktuelle Paket Repository Quellen Sicherstellen
 
-- https://wiki.debianforum.de/Sources.list
-- https://wiki.debian.org/SourcesList
-- https://wiki.ubuntuusers.de/sources.list/
-
 ```bash
 cat /etc/apt/sources.list
 ```
@@ -68,8 +64,13 @@ deb http://archive.canonical.com/ubuntu/ jammy partner
 # deb-src http://archive.ubuntu.com/ubuntu/ jammy-security main restricted universe multiverse
 # deb-src http://archive.ubuntu.com/ubuntu/ jammy-backports main restricted universe multiverse
 # deb-src http://archive.canonical.com/ubuntu/ jammy partner
-
 ```
+*Weiterführende URLs*
+- https://wiki.debianforum.de/Sources.list
+- https://wiki.debian.org/SourcesList
+- https://wiki.ubuntuusers.de/sources.list/
+
+
 ### System aktualisieren und Ansible als auch Git installieren
 ```bash
 # Ubuntu/Debian 
