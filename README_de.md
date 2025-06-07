@@ -14,14 +14,8 @@ Dieses Ansible Playbook automatisiert die Installation und Konfiguration einer M
 
 ### Lokales System
 ```bash
-# Ubuntu/Debian
+# Ubuntu/Debian 
 sudo apt update && sudo apt install -y ansible git
-
-# CentOS/RHEL/Rocky
-sudo dnf install -y ansible git
-
-# macOS
-brew install ansible
 ```
 
 ### Zielserver
@@ -33,9 +27,22 @@ brew install ansible
 
 ## Installation
 
+Die Installation basiert auf der Standard Installationsanleitung von Mailcow
+
+https://docs.mailcow.email/getstarted/install/#start-mailcow
+
 ### 1. Repository klonen
 ```bash
-git clone <repository-url>
+su - root
+umask
+0022 # <- Verify it is 0022
+cd /opt
+git clone https://github.com/mailcow/mailcow-dockerized
+cd mailcow-dockerized
+
+cd /opt
+curl -sSL https://get.docker.com/ | CHANNEL=stable sh
+systemctl enable --now docker
 cd mailcow-ansible
 ```
 
