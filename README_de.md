@@ -18,6 +18,8 @@ Dieses Ansible Playbook automatisiert die Installation und Konfiguration einer M
 
 ## Überblick
 
+Was wird installiert und konfiguriert?
+
 - **Nginx Reverse Proxy** mit SSL-Terminierung
 - **Mailcow Dockerized** Setup
 - **Let's Encrypt** automatische Zertifikatserstellung
