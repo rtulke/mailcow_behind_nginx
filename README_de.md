@@ -28,9 +28,9 @@ Dieses Ansible Playbook automatisiert die Installation und Konfiguration einer M
 
 ### Aktuelle Paket Repository Quellen Sicherstellen
 
-https://wiki.debianforum.de/Sources.list
-https://wiki.debian.org/SourcesList
-https://wiki.ubuntuusers.de/sources.list/
+- https://wiki.debianforum.de/Sources.list
+- https://wiki.debian.org/SourcesList
+- https://wiki.ubuntuusers.de/sources.list/
 
 ```bash
 cat /etc/apt/sources.list
