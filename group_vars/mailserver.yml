@@ -1,0 +1,19 @@
+---
+# Globale Variables for Mailserver
+
+# SSL and Security Settings
+ssl_protocols: "TLSv1.2 TLSv1.3"
+ssl_ciphers: "ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384"
+
+# Mailcow Settings
+mailcow_version: "master"
+mailcow_http_port: 8080
+mailcow_https_port: 8443
+
+# Backup Settings
+backup_retention_days: 30
+ssl_backup_path: "/opt/ssl-backups"
+
+# Monitoring
+enable_logrotate: true
+log_retention_days: 30
