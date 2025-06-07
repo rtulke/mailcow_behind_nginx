@@ -1,0 +1,170 @@
+#!/bin/bash
+# templates/ssl_sync.sh.j2
+# SSL Certificate Synchronization Script for Mailcow
+# This script syncs Let's Encrypt certificates to Mailcow containers
+# Domain: {{ mail_domain }}
+
+set -euo pipefail
+
+# Configuration variables
+readonly MAIL_DOMAIN="{{ mail_domain }}"
+readonly LETSENCRYPT_CERT_PATH="{{ nginx_ssl_path }}"
+readonly MAILCOW_SSL_PATH="{{ mailcow_ssl_path }}"
+readonly MAILCOW_PATH="{{ mailcow_path }}"
+readonly LOG_FILE="/var/log/ssl_sync.log"
+
+# Logging function
+log_message() {
+    echo "$(date '+%Y-%m-%d %H:%M:%S') - $1" | tee -a "${LOG_FILE}"
+}
+
+# Function to check if docker containers are running
+check_mailcow_containers() {
+    local POSTFIX_CONTAINER
+    local DOVECOT_CONTAINER
+    
+    POSTFIX_CONTAINER=$(docker ps -qf name=postfix-mailcow)
+    DOVECOT_CONTAINER=$(docker ps -qf name=dovecot-mailcow)
+    
+    if [[ -z "${POSTFIX_CONTAINER}" ]] || [[ -z "${DOVECOT_CONTAINER}" ]]; then
+        log_message "ERROR: Mailcow containers not running"
+        return 1
+    fi
+    
+    return 0
+}
+
+# Function to validate SSL certificates
+validate_ssl_cert() {
+    local CERT_FILE="$1"
+    
+    if [[ ! -f "${CERT_FILE}" ]]; then
+        log_message "ERROR: Certificate file not found: ${CERT_FILE}"
+        return 1
+    fi
+    
+    # Check if certificate is valid
+    if ! openssl x509 -in "${CERT_FILE}" -noout -checkend 86400 2>/dev/null; then
+        log_message "WARNING: Certificate expires within 24 hours: ${CERT_FILE}"
+        return 1
+    fi
+    
+    return 0
+}
+
+# Function to backup current certificates
+backup_certificates() {
+    local BACKUP_DIR="${MAILCOW_SSL_PATH}/backup/$(date +%Y%m%d_%H%M%S)"
+    
+    if [[ -f "${MAILCOW_SSL_PATH}/cert.pem" ]]; then
+        mkdir -p "${BACKUP_DIR}"
+        cp "${MAILCOW_SSL_PATH}/cert.pem" "${BACKUP_DIR}/"
+        cp "${MAILCOW_SSL_PATH}/key.pem" "${BACKUP_DIR}/"
+        log_message "Certificates backed up to ${BACKUP_DIR}"
+    fi
+}
+
+# Function to copy SSL certificates
+copy_ssl_certificates() {
+    local FULLCHAIN_FILE="${LETSENCRYPT_CERT_PATH}/fullchain.pem"
+    local PRIVKEY_FILE="${LETSENCRYPT_CERT_PATH}/privkey.pem"
+    local MAILCOW_CERT="${MAILCOW_SSL_PATH}/cert.pem"
+    local MAILCOW_KEY="${MAILCOW_SSL_PATH}/key.pem"
+    
+    # Validate source certificates
+    if ! validate_ssl_cert "${FULLCHAIN_FILE}"; then
+        log_message "ERROR: Invalid Let's Encrypt certificate"
+        return 1
+    fi
+    
+    # Create mailcow SSL directory if it doesn't exist
+    mkdir -p "${MAILCOW_SSL_PATH}"
+    
+    # Backup existing certificates
+    backup_certificates
+    
+    # Copy new certificates with proper permissions
+    cp "${FULLCHAIN_FILE}" "${MAILCOW_CERT}"
+    cp "${PRIVKEY_FILE}" "${MAILCOW_KEY}"
+    
+    # Set proper ownership and permissions
+    chown root:root "${MAILCOW_CERT}" "${MAILCOW_KEY}"
+    chmod 644 "${MAILCOW_CERT}"
+    chmod 600 "${MAILCOW_KEY}"
+    
+    log_message "SSL certificates copied successfully"
+    return 0
+}
+
+# Function to reload mailcow services
+reload_mailcow_services() {
+    local POSTFIX_CONTAINER
+    local DOVECOT_CONTAINER
+    
+    POSTFIX_CONTAINER=$(docker ps -qf name=postfix-mailcow)
+    DOVECOT_CONTAINER=$(docker ps -qf name=dovecot-mailcow)
+    
+    # Reload postfix
+    if docker exec "${POSTFIX_CONTAINER}" postfix reload 2>/dev/null; then
+        log_message "Postfix reloaded successfully"
+    else
+        log_message "ERROR: Failed to reload Postfix"
+        return 1
+    fi
+    
+    # Reload dovecot
+    if docker exec "${DOVECOT_CONTAINER}" dovecot reload 2>/dev/null; then
+        log_message "Dovecot reloaded successfully"
+    else
+        log_message "ERROR: Failed to reload Dovecot"
+        return 1
+    fi
+    
+    return 0
+}
+
+# Main function
+main() {
+    local LETSENCRYPT_CERT="${LETSENCRYPT_CERT_PATH}/fullchain.pem"
+    local MAILCOW_CERT="${MAILCOW_SSL_PATH}/cert.pem"
+    
+    log_message "Starting SSL certificate sync for ${MAIL_DOMAIN}"
+    
+    # Check if Let's Encrypt certificate exists
+    if [[ ! -f "${LETSENCRYPT_CERT}" ]]; then
+        log_message "ERROR: Let's Encrypt certificate not found: ${LETSENCRYPT_CERT}"
+        exit 1
+    fi
+    
+    # Check if mailcow containers are running
+    if ! check_mailcow_containers; then
+        log_message "ERROR: Mailcow containers check failed"
+        exit 1
+    fi
+    
+    # Compare certificates if mailcow cert exists
+    if [[ -f "${MAILCOW_CERT}" ]]; then
+        if cmp -s "${LETSENCRYPT_CERT}" "${MAILCOW_CERT}"; then
+            log_message "Certificates are identical, no sync needed"
+            exit 0
+        else
+            log_message "Certificates differ, starting sync process"
+        fi
+    else
+        log_message "Mailcow certificate not found, performing initial sync"
+    fi
+    
+    # Copy certificates and reload services
+    if copy_ssl_certificates && reload_mailcow_services; then
+        log_message "SSL certificate sync completed successfully"
+    else
+        log_message "ERROR: SSL certificate sync failed"
+        exit 1
+    fi
+}
+
+# Trap to handle script interruption
+trap 'log_message "Script interrupted"; exit 1' INT TERM
+
+# Run main function
+main "$@"
