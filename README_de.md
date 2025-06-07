@@ -1,8 +1,7 @@
 # Inhalt
 
 1. [Mailcow mit Nginx Reverse Proxy](#Mailcow-mit-Nginx-Reverse-Proxy)
-2. [Überblick](#Überblick)
-3. [Vorbedingungen "Mailcow" Server](##vorbedingungen-mailcow-server)
+2. [Vorbedingungen "Mailcow" Server](##vorbedingungen-mailcow-server)
 5. [Was wird installiert und konfiguriert](##was-wird-installiert-und-konfiguriert)
 7. [Aktuelle Paket Repository Quellen Sicherstellen](#Aktuelle-Paket-Repository-Quellen-Sicherstellen)
 8. [System aktualisieren und Ansible als auch Git installieren](#System-aktualisieren-und-Ansible-als-auch-Git-installieren)
