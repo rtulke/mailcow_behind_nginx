@@ -12,7 +12,7 @@ Dieses Ansible Playbook automatisiert die Installation und Konfiguration einer M
 
 ## Voraussetzungen
 
-### 1. Aktuelle Paket Repository Quellen Sicherstellen
+### Aktuelle Paket Repository Quellen Sicherstellen
 
 https://wiki.debianforum.de/Sources.list
 https://wiki.debian.org/SourcesList
@@ -62,48 +62,51 @@ deb http://archive.canonical.com/ubuntu/ jammy partner
 sudo apt update && sudo apt upgrade -y && sudo apt install -y ansible git
 ```
 
-### Zielserver
+## Vorbedingungen "Mailcow" Server
+
 - Linux Server (Debian/Ubuntu empfohlen)
 - Root-Zugriff oder sudo-berechtigt
-- Öffentliche IP-Adresse
-- Domain z.B. mail.deinedomain.de zeigt auf Server-IP (öffentliche IP)
-- Ports 80, 443, 25, 465, 587, 993, 995 erreichbar
+- Öffentliche IP-Adresse vorhanden
+- Domain z.B. mail.deinedomain.de zeigt auf Server-IP (Öffentliche IP)
+- Ports 80, 443, 25, 465, 587, 993, 995 sind von aussen erreichbar
 
 ## Installation
 
-Die Installation basiert auf der Standard Installationsanleitung von Mailcow
+Die Installation basiert auf der Standard Installationsanleitung von Mailcow https://docs.mailcow.email/getstarted/install/#start-mailcow
 
-https://docs.mailcow.email/getstarted/install/#start-mailcow
+### Standard Installation von Docker und mailcow gemäss Anleitung
 
+#### Docker Installieren (als root)
 
-
-
-### 2. Repository klonen
 ```bash
 su - root
-umask
-0022 # <- Verify it is 0022
-cd /opt
-git clone https://github.com/mailcow/mailcow-dockerized
-cd mailcow-dockerized
-
 cd /opt
 curl -sSL https://get.docker.com/ | CHANNEL=stable sh
 systemctl enable --now docker
-cd mailcow-ansible
 ```
 
-### 2. Verzeichnisstruktur erstellen
+#### mailcow Repository klonen (als root)
+
 ```bash
-mkdir -p {inventory,group_vars,templates,vars}
+su - root
+umask
+0022     # <- Verify it is 0022
+cd /opt
+git clone https://github.com/mailcow/mailcow-dockerized
+cd mailcow-dockerized
 ```
 
-### 3. Konfiguration anpassen
+### Installation der Ansible Rolle welche die Installation von Mailcow hinter einem Nginx Proxy übernimmt
 
-**vars.yml erstellen:**
+Mailcow geht davon aus das man mailcow direkt auf einem Mailserver installiert, das heisst, es nicht direkt vorgesehen das man z.B. eigene Webseiten unterhalb des mailcow nginx Container betreibt. Hat man aber nur einen Server/VM zur Verfügung ist es recht umständlich seine eigenen Seiten innerhalb des Mailserver Containers Nginx zu betreiben. Dieses Setup ist speziell dafür gedacht das man einen eigenen Nginx Server vor dem Mailcown Nginx Container davor schaltet welcher dann die Anfragen entsprechend für Mailcow umeleitet.
+
+#### Setup Mailcow hinter einem Nginx Proxy
+
 ```bash
-cp vars.yml.example vars.yml
+cd /opt
+git clone https://github.com/rtulke/mailcow_behind_nginx_proxy.git
 ```
+
 
 **vars.yml bearbeiten:**
 ```yaml
