@@ -14,7 +14,7 @@
 
 # Mailcow mit Nginx Reverse Proxy
 
-Dieses Ansible Playbook automatisiert die Installation und Konfiguration einer Mailcow-Instanz mit Nginx als Reverse Proxy, inklusive automatischer SSL-Zertifikat-Verwaltung über Let's Encrypt. Wir gehen hier davon aus das ihr ein frisches System habt und Mailcow noch nicht installiert wurde!
+Dieses Ansible Playbook automatisiert die Installation und Konfiguration einer Mailcow-Instanz mit Nginx als Reverse Proxy, inklusive automatischer SSL-Zertifikat-Verwaltung über Let's Encrypt. Ich gehe in diesem Setup davon aus, das Du ein frisches APT-basiertes System vor Dir hast und Mailcow noch nicht installiert wurde.
 
 ## Überblick
 
