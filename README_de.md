@@ -16,6 +16,8 @@
 
 Dieses Ansible Playbook automatisiert die Installation und Konfiguration einer Mailcow-Instanz mit Nginx als Reverse Proxy, inklusive automatischer SSL-Zertifikat-Verwaltung über Let's Encrypt. Ich gehe in diesem Setup davon aus, das Du ein frisches APT-basiertes System vor Dir hast und Mailcow noch nicht installiert wurde.
 
+Mailcow geht davon aus das man mailcow direkt auf einem eigenen dafür angedachten Mailserver (VM) installiert, das heisst es nicht direkt vorgesehen das man z.B. eigene Webseiten unterhalb des mailcow nginx Container betreibt auch wenn in der Beschreibung dokumentiert ist wie man eigene Seiten unterhalb der Domain mail.deinedomain.de betreiben könnte. Möchte man aber weitere Domainen betreiben und hat nur einen Server/VM zur Verfügung, ist es recht umständlich seine eigenen Seiten innerhalb des von mailcow bereitgestellten Nginx Containers diese zu betreiben. Dieses Setup ist speziell dafür gedacht, das man einen eigenen Nginx Server vor dem mailcow Nginx Container vorschaltet welcher dann die Anfragen entsprechend für Mailcow umeleitet. Somit ist es uns dann möglich innerhalb der eigenen Nginx Instanz unsere Domainen oder Webseiten zu betreiben.
+
 ## Vorbedingungen "Mailcow" Server
 
 - Linux Server (Debian/Ubuntu empfohlen)
@@ -112,10 +114,6 @@ cd /opt
 git clone https://github.com/mailcow/mailcow-dockerized
 cd mailcow-dockerized
 ```
-
-### Installation der Ansible Rolle welche die Installation von Mailcow hinter einem Nginx Proxy übernimmt
-
-Mailcow geht davon aus das man mailcow direkt auf einem eigenen dafür angedachten Mailserver (VM) installiert, das heisst es nicht direkt vorgesehen das man z.B. eigene Webseiten unterhalb des mailcow nginx Container betreibt. Hat man aber nur einen Server/VM zur Verfügung ist es recht umständlich seine eigenen Seiten innerhalb des von mailcow bereitgestellten Nginx Containers zu betreiben. Dieses Setup ist speziell dafür gedacht, das man einen eigenen Nginx Server vor dem mailcow Nginx Container vorschaltet welcher dann die Anfragen entsprechend für Mailcow umeleitet.
 
 #### Setup Mailcow hinter einem Nginx Proxy
 
