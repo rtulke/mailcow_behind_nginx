@@ -84,11 +84,12 @@ deb http://archive.canonical.com/ubuntu/ jammy partner
 - https://wiki.ubuntuusers.de/sources.list/
 
 
-### System aktualisieren und Ansible als auch Git installieren
+### System aktualisieren und Ansible, Docker-Compose und Git installieren
 ```bash
 # Ubuntu/Debian 
 sudo apt update && sudo apt upgrade -y
 sudo apt install ansible git -y
+sudo apt install docker-compose docker-compose-plugin -y
 ```
 
 ## Standard Installation von Mailcow
@@ -99,7 +100,7 @@ Die Installation basiert auf der Standard Installationsanleitung von Mailcow htt
 
 Dieser Teil der Installation basiert im wesentlichen auf der originalen Installationsanleitung von Mailcow.
 
-#### Docker Installieren (als root)
+#### Aktuelles Docker Installieren (als root)
 
 ```bash
 su - root
@@ -112,8 +113,8 @@ systemctl enable --now docker
 
 ```bash
 su - root
-umask
-0022     # <- Verify it is 0022
+umask 
+  0022     # <- Überprüfen ob umask 0022 gesetzt ist
 cd /opt
 git clone https://github.com/mailcow/mailcow-dockerized
 cd mailcow-dockerized
