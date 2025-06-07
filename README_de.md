@@ -12,17 +12,61 @@ Dieses Ansible Playbook automatisiert die Installation und Konfiguration einer M
 
 ## Voraussetzungen
 
-### Lokales System
+### 1. Aktuelle Paket Repository Quellen Sicherstellen
+
+https://wiki.debianforum.de/Sources.list
+https://wiki.debian.org/SourcesList
+https://wiki.ubuntuusers.de/sources.list/
+
+```bash
+cat /etc/apt/sources.list
+```
+
+### Für Debian 12
+```
+## Official Debian Packages (bookworm 12)
+deb http://deb.debian.org/debian/ bookworm contrib main non-free non-free-firmware
+deb http://deb.debian.org/debian/ bookworm-updates contrib main non-free non-free-firmware
+deb http://deb.debian.org/debian/ bookworm-proposed-updates contrib main non-free non-free-firmware
+deb http://deb.debian.org/debian/ bookworm-backports contrib main non-free non-free-firmware
+deb http://deb.debian.org/debian-security/ bookworm-security contrib main non-free non-free-firmware
+
+## Offical Debian Source Packages (bookworm 12)
+# deb-src http://deb.debian.org/debian/ bookworm contrib main non-free non-free-firmware
+# deb-src http://deb.debian.org/debian/ bookworm-updates contrib main non-free non-free-firmware
+# deb-src http://deb.debian.org/debian/ bookworm-proposed-updates contrib main non-free non-free-firmware
+# deb-src http://deb.debian.org/debian/ bookworm-backports contrib main non-free non-free-firmware
+# deb-src http://deb.debian.org/debian-security/ bookworm-security contrib main non-free non-free-firmware
+```
+
+### Für Ubuntu 22.04
+```
+## Official Ubuntu Packages (jammy 22.04)
+deb http://archive.ubuntu.com/ubuntu/ jammy main restricted universe multiverse
+deb http://archive.ubuntu.com/ubuntu/ jammy-updates main restricted universe multiverse
+deb http://archive.ubuntu.com/ubuntu/ jammy-security main restricted universe multiverse
+deb http://archive.ubuntu.com/ubuntu/ jammy-backports main restricted universe multiverse
+deb http://archive.canonical.com/ubuntu/ jammy partner
+
+## Official Ubuntu Sources Packages (jammy 22.04)
+# deb-src http://archive.ubuntu.com/ubuntu/ jammy main restricted universe multiverse
+# deb-src http://archive.ubuntu.com/ubuntu/ jammy-updates main restricted universe multiverse
+# deb-src http://archive.ubuntu.com/ubuntu/ jammy-security main restricted universe multiverse
+# deb-src http://archive.ubuntu.com/ubuntu/ jammy-backports main restricted universe multiverse
+# deb-src http://archive.canonical.com/ubuntu/ jammy partner
+
+```
+### System aktualisieren und Ansible als auch Git installieren
 ```bash
 # Ubuntu/Debian 
-sudo apt update && sudo apt install -y ansible git
+sudo apt update && sudo apt upgrade -y && sudo apt install -y ansible git
 ```
 
 ### Zielserver
 - Linux Server (Debian/Ubuntu empfohlen)
 - Root-Zugriff oder sudo-berechtigt
 - Öffentliche IP-Adresse
-- Domain zeigt auf Server-IP
+- Domain z.B. mail.deinedomain.de zeigt auf Server-IP (öffentliche IP)
 - Ports 80, 443, 25, 465, 587, 993, 995 erreichbar
 
 ## Installation
@@ -31,7 +75,10 @@ Die Installation basiert auf der Standard Installationsanleitung von Mailcow
 
 https://docs.mailcow.email/getstarted/install/#start-mailcow
 
-### 1. Repository klonen
+
+
+
+### 2. Repository klonen
 ```bash
 su - root
 umask
