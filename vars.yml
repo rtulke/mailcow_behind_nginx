@@ -1,0 +1,32 @@
+# vars.yml.example
+
+## REQUIRED 
+# The domain used for your mail server
+mail_domain_name: "mail.example.com"
+
+## REQUIRED
+# Admin Email for Let's Encrypt
+admin_email: "admin@example.com"
+
+##  Server Connection
+# (Only if you do not want to run the Ansible Playbook directly on your server but remotely.)
+target_server_ip: "192.168.1.100"
+ansible_ssh_user: "root"
+ssh_key_path: "~/.ssh/id_rsa"
+
+## Optional
+# -------------------------------------------
+
+custom_nginx_configs:
+  client_max_body_size: "50M"
+  proxy_read_timeout: "300s"
+
+firewall_rules:
+  - { port: 22, protocol: tcp, rule: allow }
+  - { port: 80, protocol: tcp, rule: allow }
+  - { port: 443, protocol: tcp, rule: allow }
+  - { port: 25, protocol: tcp, rule: allow }
+  - { port: 465, protocol: tcp, rule: allow }
+  - { port: 587, protocol: tcp, rule: allow }
+  - { port: 993, protocol: tcp, rule: allow }
+  - { port: 995, protocol: tcp, rule: allow }
