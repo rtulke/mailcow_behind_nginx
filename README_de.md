@@ -1,6 +1,6 @@
 ## Table of Contents
 
-1. [Installation](#installation)
+1. [Installation](#Mailcow mit Nginx Reverse Proxy - Ansible Automation)
 2. [Installing OS wide (Debian based Distributions)](#Installing-OS-wide)
 3. [Basic Usage](#basic-usage)
 4. [Command Line Arguments](#command-line-arguments)
