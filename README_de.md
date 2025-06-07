@@ -1,4 +1,4 @@
-## Table of Contents
+# Inhalt
 
 1. [Mailcow mit Nginx Reverse Proxy](#Mailcow-mit-Nginx-Reverse-Proxy)
 2. [Überblick](#Überblick)
