@@ -5,7 +5,7 @@
 5. [Was wird installiert und konfiguriert](#was-wird-installiert-und-konfiguriert)
 7. [Aktuelle Paket Repository Quellen Sicherstellen](#Aktuelle-Paket-Repository-Quellen-Sicherstellen)
 8. [System aktualisieren und Ansible als auch Git installieren](#System-aktualisieren-und-Ansible-als-auch-Git-installieren)
-9. [Output Formats](#output-formats)
+9. [Standard Installation von Mailcow](#Standard-Installation-von-Mailcow)
 10. [Performance Optimization](#performance-optimization)
 11. [Advanced Features](#advanced-features)
 12. [Troubleshooting](#troubleshooting)
@@ -87,7 +87,7 @@ sudo apt update && sudo apt upgrade -y && sudo apt install -y ansible git
 ```
 
 
-## Installation
+## Standard Installation von Mailcow
 
 Die Installation basiert auf der Standard Installationsanleitung von Mailcow https://docs.mailcow.email/getstarted/install/#start-mailcow
 
