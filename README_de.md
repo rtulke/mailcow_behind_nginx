@@ -33,7 +33,7 @@ Dieses Ansible Playbook automatisiert die Installation und Konfiguration einer M
 - **Automatische SSL-Synchronisation** zwischen Nginx und Mailcow
 - **Security-optimierte Konfiguration**
 
-## Voraussetzungen
+## Installation
 
 ### Aktuelle Paket Repository Quellen Sicherstellen
 
