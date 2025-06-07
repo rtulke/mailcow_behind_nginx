@@ -1,10 +1,10 @@
 ## Table of Contents
 
 1. [Mailcow mit Nginx Reverse Proxy](#Mailcow-mit-Nginx-Reverse-Proxy)
-2. [Überblick](#Überblick)
-3. [Voraussetzungen](#Voraussetzungen)
-4. [Für Debian 12](##Für-Debian-12)
-5. [Configuration File](#configuration-file)
+2. [Überblick](##Überblick)
+3. [Voraussetzungen](##Voraussetzungen)
+4. [Für Debian 12](###Für-Debian-12)
+5. [Aktuelle Paket Repository Quellen Sicherstellen](#Aktuelle-Paket-Repository-Quellen-Sicherstellen)
 6. [Proxy Formats and Sources](#proxy-formats-and-sources)
 7. [Anonymity Levels](#anonymity-levels)
 8. [Output Formats](#output-formats)
