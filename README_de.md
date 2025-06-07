@@ -1,11 +1,11 @@
 ## Table of Contents
 
 1. [Mailcow mit Nginx Reverse Proxy](#Mailcow-mit-Nginx-Reverse-Proxy)
-2. [Überblick](##Überblick)
-3. [Voraussetzungen](##Voraussetzungen)
-4. [Aktuelle Paket Repository Quellen Sicherstellen](###Aktuelle-Paket-Repository-Quellen-Sicherstellen)
-5. [Für Debian 12](####Für-Debian-12)
-6. [Für Ubuntu 22.04](####Für-Ubuntu-22.04)
+2. [Überblick](#Überblick)
+3. [Voraussetzungen](#Voraussetzungen)
+4. [Aktuelle Paket Repository Quellen Sicherstellen](#Aktuelle-Paket-Repository-Quellen-Sicherstellen)
+5. [Für Debian 12](#Für-Debian-12)
+6. [Für Ubuntu 22.04](#Für-Ubuntu-22.04)
 7. [Anonymity Levels](#anonymity-levels)
 8. [Output Formats](#output-formats)
 9. [Performance Optimization](#performance-optimization)
