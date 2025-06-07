@@ -1,0 +1,197 @@
+---
+# Mailcow with an Nginx Reverse Proxy Setup
+# Run: ansible-playbook -i inventory mailcow_setup.yml
+#
+# This Playbook install:
+# - Nginx as Reverse Proxy for Mailcow
+# - Let's Encrypt SSL Certificate 
+# - Automatical Cert-Synchronisizaton
+# - Mailcow Docker Setup
+
+- name: "Setup Mailcow with Nginx Reverse Proxy"
+  hosts: mailserver
+  become: true
+  vars:
+    # Main configuration variables
+    mail_domain: "{{ mail_server_name | default('mail.example.com') }}"
+    mailcow_path: "/opt/mailcow-dockerized"
+    nginx_ssl_path: "/etc/letsencrypt/live/{{ mail_domain }}"
+    mailcow_ssl_path: "{{ mailcow_path }}/data/assets/ssl"
+    admin_email: "{{ admin_email_address | default('admin@example.com') }}"
+    
+    # Security settings
+    ssl_protocols: "TLSv1.2 TLSv1.3"
+    ssl_ciphers: "ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384"
+    
+  tasks:
+    - name: "Detect OS distribution"
+      setup:
+        gather_subset:
+          - "!all"
+          - "!min"
+          - distribution
+
+    - name: "Configure Debian 12 package sources"
+      template:
+        src: sources.list.j2
+        dest: /etc/apt/sources.list
+        backup: true
+        mode: '0644'
+      when: ansible_distribution == "Debian" and ansible_distribution_major_version == "12"
+      notify: update apt cache
+
+    - name: "Install required packages"
+      package:
+        name:
+          - nginx
+          - certbot
+          - python3-certbot-nginx
+          - docker.io
+          - docker-compose
+          - git
+          - curl
+        state: present
+        update_cache: true
+
+    - name: "Create mailcow user for security"
+      user:
+        name: mailcow
+        system: true
+        shell: /bin/bash
+        home: "{{ mailcow_path }}"
+        create_home: false
+
+    - name: "Create directory structure"
+      file:
+        path: "{{ item }}"
+        state: directory
+        owner: root
+        group: root
+        mode: '0755'
+      loop:
+        - "/var/www/{{ mail_domain }}"
+        - "/var/log/nginx"
+        - "/etc/nginx/snippets"
+
+    - name: "Create nginx error pages snippet"
+      copy:
+        dest: "/etc/nginx/snippets/error_pages.conf"
+        content: |
+          # Custom error pages
+          error_page 404 /404.html;
+          error_page 500 502 503 504 /50x.html;
+        mode: '0644'
+
+    - name: "Create nginx site configuration"
+      template:
+        src: nginx_mailcow.conf.j2
+        dest: "/etc/nginx/sites-available/{{ mail_domain }}"
+        backup: true
+        mode: '0644'
+      notify: restart nginx
+
+    - name: "Enable nginx site"
+      file:
+        src: "/etc/nginx/sites-available/{{ mail_domain }}"
+        dest: "/etc/nginx/sites-enabled/{{ mail_domain }}"
+        state: link
+      notify: restart nginx
+
+    - name: "Remove default nginx site"
+      file:
+        path: "/etc/nginx/sites-enabled/default"
+        state: absent
+      notify: restart nginx
+
+    - name: "Create simple index page"
+      copy:
+        dest: "/var/www/{{ mail_domain }}/index.html"
+        content: |
+          <!DOCTYPE html>
+          <html>
+          <head><title>{{ mail_domain }}</title></head>
+          <body><h1>Mail Server</h1></body>
+          </html>
+        mode: '0644'
+
+    - name: "Start and enable nginx"
+      systemd:
+        name: nginx
+        state: started
+        enabled: true
+
+    - name: "Obtain Let's Encrypt certificate"
+      shell: |
+        certbot certonly --nginx -d {{ mail_domain }} \
+          --non-interactive --agree-tos --email {{ admin_email }} \
+          --expand
+      args:
+        creates: "{{ nginx_ssl_path }}/fullchain.pem"
+
+    - name: "Clone mailcow repository"
+      git:
+        repo: "https://github.com/mailcow/mailcow-dockerized.git"
+        dest: "{{ mailcow_path }}"
+        version: master
+        force: true
+      become_user: mailcow
+
+    - name: "Generate mailcow configuration"
+      shell: |
+        cd {{ mailcow_path }}
+        ./generate_config.sh
+      args:
+        creates: "{{ mailcow_path }}/mailcow.conf"
+      become_user: mailcow
+
+    - name: "Configure mailcow for reverse proxy"
+      lineinfile:
+        path: "{{ mailcow_path }}/mailcow.conf"
+        regexp: "{{ item.regexp }}"
+        line: "{{ item.line }}"
+        backup: true
+      loop:
+        - { regexp: '^MAILCOW_HOSTNAME=', line: 'MAILCOW_HOSTNAME={{ mail_domain }}' }
+        - { regexp: '^HTTP_PORT=', line: 'HTTP_PORT=8080' }
+        - { regexp: '^HTTPS_PORT=', line: 'HTTPS_PORT=8443' }
+        - { regexp: '^SKIP_LETS_ENCRYPT=', line: 'SKIP_LETS_ENCRYPT=y' }
+
+    - name: "Create SSL certificate sync script"
+      template:
+        src: ssl_sync.sh.j2
+        dest: "/usr/local/bin/ssl_sync.sh"
+        mode: '0755'
+        backup: true
+
+    - name: "Add SSL sync cron job"
+      cron:
+        name: "Sync SSL certificates for mailcow"
+        minute: "0"
+        hour: "*/12"
+        job: "/usr/local/bin/ssl_sync.sh"
+        user: root
+
+    - name: "Start mailcow services"
+      shell: |
+        cd {{ mailcow_path }}
+        docker-compose up -d
+      become_user: mailcow
+
+    - name: "Initial SSL certificate sync"
+      command: /usr/local/bin/ssl_sync.sh
+
+  handlers:
+    - name: update apt cache
+      apt:
+        update_cache: true
+      when: ansible_distribution == "Debian"
+
+    - name: restart nginx
+      systemd:
+        name: nginx
+        state: restarted
+
+    - name: reload nginx
+      systemd:
+        name: nginx
+        state: reloaded
