@@ -98,7 +98,7 @@ cd mailcow-dockerized
 
 ### Installation der Ansible Rolle welche die Installation von Mailcow hinter einem Nginx Proxy übernimmt
 
-Mailcow geht davon aus das man mailcow direkt auf einem Mailserver installiert, das heisst, es nicht direkt vorgesehen das man z.B. eigene Webseiten unterhalb des mailcow nginx Container betreibt. Hat man aber nur einen Server/VM zur Verfügung ist es recht umständlich seine eigenen Seiten innerhalb des Mailserver Containers Nginx zu betreiben. Dieses Setup ist speziell dafür gedacht das man einen eigenen Nginx Server vor dem Mailcown Nginx Container davor schaltet welcher dann die Anfragen entsprechend für Mailcow umeleitet.
+Mailcow geht davon aus das man mailcow direkt auf einem eigenen dafür angedachten Mailserver (VM) installiert, das heisst es nicht direkt vorgesehen das man z.B. eigene Webseiten unterhalb des mailcow nginx Container betreibt. Hat man aber nur einen Server/VM zur Verfügung ist es recht umständlich seine eigenen Seiten innerhalb des von mailcow bereitgestellten Nginx Containers zu betreiben. Dieses Setup ist speziell dafür gedacht, das man einen eigenen Nginx Server vor dem mailcow Nginx Container vorschaltet welcher dann die Anfragen entsprechend für Mailcow umeleitet.
 
 #### Setup Mailcow hinter einem Nginx Proxy
 
