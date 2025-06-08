@@ -10,7 +10,7 @@
 8. [Ansible Playbook](#Ansible-Playbook-ausführen)
 9. [Advanced Features](#advanced-features)
 10. [Troubleshooting](#troubleshooting)
-11. [Erweoterte Konfiguration](#erweiterte-konfiguration)
+11. [Erweiterte Konfiguration](#erweiterte-konfiguration)
 12. [Reference Proxy-Lists](#Reference-Proxy-Lists)
 
 # Mailcow hinter einem Nginx Reverse Proxy
@@ -274,6 +274,8 @@ sudo docker-compose restart postfix-mailcow dovecot-mailcow
 ```
 
 ## Erweiterte Konfiguration
+
+Wenn Du keine Firewall im Einsatz hast ist es nicht zwingend nötig eine Firewall zu konfigurieren aber sicherlich sinvoll.
 
 ### Firewall anpassen (UFW)
 Wenn Du die UFW Firewall verwendest benötigst Du folgenden zusätzliche Rules
