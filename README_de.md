@@ -146,8 +146,8 @@ mail_domain_name: "mail.deinedomain.de"
 # Admin Email für Let's Encrypt Benachrichtigungen
 admin_email: "admin@deinedomain.de"
 
-# Server Details (für Ansible Remote Installation)
-target_server_ip: "111.111.111.111"
+# Server Details (Nur nötig für Ansible Remote Installation)
+target_server_ip: "111.111.111.111"  # (example: mail.deinedomain.de)
 ansible_ssh_user: "root"
 ssh_key_path: "~/.ssh/id_rsa"
 ```
