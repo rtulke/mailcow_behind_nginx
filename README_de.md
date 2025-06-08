@@ -1,18 +1,19 @@
 # Inhalt
 
-1. [Mailcow mit Nginx Reverse Proxy](#Mailcow-mit-Nginx-Reverse-Proxy)
+1. [Mailcow hinter einem Nginx Reverse Proxy](#Mailcow-hinter-einem-Nginx-Reverse-Proxy)
 2. [Vorbedingungen "Mailcow" Server](#vorbedingungen-mailcow-server)
-5. [Was wird installiert und konfiguriert](#was-wird-installiert-und-konfiguriert)
-7. [Aktuelle Paket Repository Quellen Sicherstellen](#Aktuelle-Paket-Repository-Quellen-Sicherstellen)
-8. [System aktualisieren und Ansible als auch Git installieren](#System-aktualisieren-und-Ansible-als-auch-Git-installieren)
-9. [Standard Installation von Mailcow](#Standard-Installation-von-Mailcow)
-10. [Performance Optimization](#performance-optimization)
-11. [Advanced Features](#advanced-features)
-12. [Troubleshooting](#troubleshooting)
-13. [Examples](#examples)
-14. [Reference Proxy-Lists](#Reference-Proxy-Lists)
+3. [Was wird installiert und konfiguriert](#was-wird-installiert-und-konfiguriert)
+4. [Aktuelle Paket Repository Quellen Sicherstellen](#Aktuelle-Paket-Repository-Quellen-Sicherstellen)
+5. [System aktualisieren und Ansible als auch Git installieren](#System-aktualisieren-und-Ansible-als-auch-Git-installieren)
+6. [Installation](#Installation)
+7. [Standard Installation von Mailcow](#Standard-Installation-von-Mailcow)
+8. [Ansible Playbook](#Ansible-Playbook-ausführen)
+9. [Advanced Features](#advanced-features)
+10. [Troubleshooting](#troubleshooting)
+11. [Examples](#examples)
+12. [Reference Proxy-Lists](#Reference-Proxy-Lists)
 
-# Mailcow mit Nginx Reverse Proxy
+# Mailcow hinter einem Nginx Reverse Proxy
 
 Dieses Ansible Playbook automatisiert die Installation und Konfiguration einer Mailcow-Instanz mit Nginx als Reverse Proxy, inklusive automatischer SSL-Zertifikat-Verwaltung über Let's Encrypt. Ich gehe in diesem Setup davon aus, das Du ein frisches APT-basiertes System vor Dir hast und Mailcow noch nicht installiert wurde.
 
@@ -153,7 +154,7 @@ ssh_key_path: "~/.ssh/id_rsa"
 # IP-Adresse und SSH-Details setzen
 ```
 
-### 4. Playbook ausführen
+### Ansible Playbook ausführen
 
 **Lokale Installation:**
 ```bash
