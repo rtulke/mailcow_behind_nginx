@@ -6,12 +6,12 @@
 4. [Aktuelle Paket Repository Quellen Sicherstellen](#Aktuelle-Paket-Repository-Quellen-Sicherstellen)
 5. [System aktualisieren und Ansible als auch Git installieren](#aktualisieren-und-ansible-docker-compose-und-git-installieren)
 6. [Installation](#Installation)
-8. [Standard Installation von Mailcow](#Standard-Installation-von-Mailcow)
-9. [Ansible Playbook](#Ansible-Playbook-ausführen)
-10. [Advanced Features](#advanced-features)
-11. [Troubleshooting](#troubleshooting)
-12. [Examples](#examples)
-13. [Reference Proxy-Lists](#Reference-Proxy-Lists)
+7. [Standard Installation von Mailcow](#Standard-Installation-von-Mailcow)
+8. [Ansible Playbook](#Ansible-Playbook-ausführen)
+9. [Advanced Features](#advanced-features)
+10. [Troubleshooting](#troubleshooting)
+11. [Examples](#examples)
+12. [Reference Proxy-Lists](#Reference-Proxy-Lists)
 
 # Mailcow hinter einem Nginx Reverse Proxy
 
