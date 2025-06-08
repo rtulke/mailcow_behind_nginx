@@ -2,8 +2,7 @@
 
 Setup Mailcow Container based installation behind a Nginx Proxy
 
-German Version
-- [README_de.md](README_de.md)
+- German Version: [README_de.md](README_de.md)
 
 
 # Table of Contents
