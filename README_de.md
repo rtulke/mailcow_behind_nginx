@@ -1,6 +1,6 @@
 # mailcow behind nginx
 
-Setup Mailcow Container based installation behind a Nginx Proxy
+Einrichtung einer Mailcow Container basierten Installation hinter einem Nginx Proxy
 
 - Englische Version: [README.md](README.md)
 
