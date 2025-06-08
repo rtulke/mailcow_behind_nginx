@@ -245,6 +245,7 @@ mailcow-ansible/
 ├── templates/
 │   ├── nginx_mailcow.conf.j2  # Nginx configuration
 │   └── ssl_sync.sh.j2         # SSL sync script
+|   └── iptables-firewall.sh   # Iptables Firewall Script
 ├── vars.yml.example           # Example variables
 ├── vars.yml                   # Your variables (create)
 └── README.md                  # This guide
@@ -252,15 +253,15 @@ mailcow-ansible/
 
 ## Important Paths on the Server
 
-| Component                | Path                                       |
-|---------------------------|--------------------------------------------|
-| Mailcow Installation      | `/opt/mailcow-dockerized`                  |
-| Mailcow Ansible Setup     | `/opt/mailcow_behind_nginx`                |
-| Nginx Configuration       | `/etc/nginx/sites-available/`              |
+| Component                  | Path                                       |
+|----------------------------|--------------------------------------------|
+| Mailcow Installation       | `/opt/mailcow-dockerized`                  |
+| Mailcow Ansible Setup      | `/opt/mailcow_behind_nginx`                |
+| Nginx Configuration        | `/etc/nginx/sites-available/`              |
 | Let's Encrypt Certificates | `/etc/letsencrypt/live/mail.domain.com/`   |
 | Mailcow SSL Certificates   | `/opt/mailcow-dockerized/data/assets/ssl/` |
-| SSL Sync Script           | `/usr/local/bin/ssl_sync.sh`               |
-| Log Files                 | `/var/log/ssl_sync.log`                    |
+| SSL Sync Script            | `/usr/local/bin/ssl_sync.sh`               |
+| Log Files                  | `/var/log/ssl_sync.log`                    |
 
 ## Troubleshooting
 
