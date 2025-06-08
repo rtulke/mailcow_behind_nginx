@@ -120,6 +120,9 @@ cd /opt
 git clone https://github.com/mailcow/mailcow-dockerized
 cd mailcow-dockerized
 ```
+## Ansible Rolle konfigurieren
+
+Die Ansible Rolle wird nun installiert und konfiguriert. Die Ansible Rolle wird die Konfiguration von Mailcow entsprechend anpassen und nginx als Service installieren (kein Container), so das dieser Nginx Service die Anfragen an den Mailcow nginx Container weiterleitet.
 
 #### Clonen des "mailcow_behind_nginx" Repositorys
 
