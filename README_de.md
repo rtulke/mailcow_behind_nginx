@@ -1,4 +1,4 @@
-# mailcow behind nginx
+# Mailcow hinter einem Nginx
 
 Einrichtung einer Mailcow Container basierten Installation hinter einem Nginx Proxy
 
