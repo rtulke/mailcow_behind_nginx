@@ -276,8 +276,9 @@ sudo docker-compose restart postfix-mailcow dovecot-mailcow
 ## Erweiterte Konfiguration
 
 ### Firewall anpassen (UFW)
+Wenn Du die UFW Firewall verwendest benötigst Du folgenden zusätzliche Rules
+
 ```bash
-# UFW Beispiel
 sudo ufw allow 22/tcp
 sudo ufw allow 80/tcp
 sudo ufw allow 443/tcp
@@ -287,9 +288,18 @@ sudo ufw allow 587/tcp
 sudo ufw allow 993/tcp
 sudo ufw allow 995/tcp
 sudo ufw enable
+sudo systemctl enable ufw
+
+# ssh rate limiting 6 connection/min. (optional)
+sudo ufw delete allow 22/tcp
+sudo ufw limit 22/tcp comment 'SSH rate limited'
+
+# check status
+sudo ufw status numbered
 ```
 
 ### Firewall anpassen (iptables)
+Wenn Du die Netfilter/iptables Firewall verwendest, kannst Du mit dem iptables-firewall.sh Bash Script aus `/opt/mailcow_behind_nginx/templates/iptables-firewall.sh` die Ports festlegen. Zusätzlich zu den bestehenden Ports wird noch ein SSH rate limiting konfiguriert, welches so eingestellt ist, das max. 4 Verbindungen in der Minute erlaubt.
 
 ```bash
 su - root
@@ -298,7 +308,6 @@ chmod +x iptables-firewall.sh
 ./iptables-firewall.sh
 systemctl enable netfilter-persistent    # persitent fw
 ```
-
 
 ## Sicherheitshinweise
 
