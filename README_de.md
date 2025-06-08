@@ -4,7 +4,7 @@
 2. [Vorbedingungen "Mailcow" Server](#vorbedingungen-mailcow-server)
 3. [Was wird installiert und konfiguriert](#was-wird-installiert-und-konfiguriert)
 4. [Aktuelle Paket Repository Quellen Sicherstellen](#Aktuelle-Paket-Repository-Quellen-Sicherstellen)
-5. [System aktualisieren und Ansible als auch Git installieren](#aktualisieren-und-ansible-docker-compose-und-git-installieren)
+5. [System aktualisieren und Ansible Ansible, Docker als auch Git installieren](#System-aktualisieren-und-ansible-docker-compose-und-git-installieren)
 6. [Installation](#Installation)
 7. [Standard Installation von Mailcow](#Standard-Installation-von-Mailcow)
 8. [Ansible Playbook](#Ansible-Playbook-ausführen)
