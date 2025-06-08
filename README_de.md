@@ -237,6 +237,7 @@ mailcow-ansible/
 ├── templates/
 │   ├── nginx_mailcow.conf.j2  # Nginx Konfiguration
 │   └── ssl_sync.sh.j2         # SSL Sync Script
+|   └── iptables-firewall.sh   # Iptables Firewall Script
 ├── vars.yml.example           # Beispiel-Variablen
 ├── vars.yml                   # Deine Variablen (erstellen)
 └── README.md                  # Diese Anleitung
