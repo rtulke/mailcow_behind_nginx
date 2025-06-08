@@ -274,7 +274,7 @@ sudo docker-compose restart postfix-mailcow dovecot-mailcow
 
 ## Erweiterte Konfiguration
 
-### Firewall anpassen
+### Firewall anpassen (UFW)
 ```bash
 # UFW Beispiel
 sudo ufw allow 22/tcp
@@ -287,6 +287,17 @@ sudo ufw allow 993/tcp
 sudo ufw allow 995/tcp
 sudo ufw enable
 ```
+
+### Firewall anpassen (iptables)
+
+```bash
+su - root
+cd /opt/mailcow_behind_nginx/
+chmod +x iptables-firewall.sh
+./iptables-firewall.sh
+systemctl enable netfilter-persistent    # persitent fw
+```
+
 
 ## Sicherheitshinweise
 
