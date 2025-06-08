@@ -226,14 +226,15 @@ mailcow-ansible/
 
 ## Wichtige Pfade auf dem Server
 
-| Komponente | Pfad |
-|------------|------|
-| Mailcow Installation | `/opt/mailcow-dockerized` |
-| Nginx Konfiguration | `/etc/nginx/sites-available/` |
-| Let's Encrypt Zertifikate | `/etc/letsencrypt/live/mail.domain.com/` |
-| Mailcow SSL Zertifikate | `/opt/mailcow-dockerized/data/assets/ssl/` |
-| SSL Sync Script | `/usr/local/bin/ssl_sync.sh` |
-| Log Files | `/var/log/ssl_sync.log` |
+| Komponente                | Pfad                                       |
+|---------------------------|--------------------------------------------|
+| Mailcow Installation      | `/opt/mailcow-dockerized`                  |
+| Mailcow Ansible Setup     | `/opt/mailcow_behind_nginx`                |
+| Nginx Konfiguration       | `/etc/nginx/sites-available/`              |
+| Let's Encrypt Zertifikate | `/etc/letsencrypt/live/mail.domain.com/`   |
+| Mailcow SSL Zertifikate   | `/opt/mailcow-dockerized/data/assets/ssl/` |
+| SSL Sync Script           | `/usr/local/bin/ssl_sync.sh`               |
+| Log Files                 | `/var/log/ssl_sync.log`                    |
 
 ## Troubleshooting
 
