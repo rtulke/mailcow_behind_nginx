@@ -56,15 +56,18 @@ Möchte man aber weitere Domainen betreiben und hat nur einen Server/VM zur Verf
 - **Automatische SSL-Synchronisation** zwischen Nginx und Mailcow
 - **Security-optimierte Konfiguration**
 
-## Installation
+## Vorrausetzungen für die Installation
+
+Damit für die Installation nötige Vorraussetzungen geschaffen werden solltest Du verifizieren ob die hier im Bsp. angegeben Paketquellen (Debian/Ubuntu) vorhanden sind. Zudem werden wir Ansible, Git und Docker-Compose installieren.
 
 ### Aktuelle Paket Repository Quellen Sicherstellen
+
+**Für Debian 12**
 
 ```bash
 cat /etc/apt/sources.list
 ```
 
-**Für Debian 12**
 ```
 ## Official Debian Packages (bookworm 12)
 deb http://deb.debian.org/debian/ bookworm contrib main non-free non-free-firmware
@@ -82,6 +85,11 @@ deb http://deb.debian.org/debian-security/ bookworm-security contrib main non-fr
 ```
 
 **Für Ubuntu 22.04**
+
+```bash
+cat /etc/apt/sources.list
+```
+
 ```
 ## Official Ubuntu Packages (jammy 22.04)
 deb http://archive.ubuntu.com/ubuntu/ jammy main restricted universe multiverse
@@ -139,17 +147,45 @@ git clone https://github.com/mailcow/mailcow-dockerized
 cd mailcow-dockerized
 ```
 
-## Ansible Rolle konfigurieren
+## Ansible Rolle "Mailcow behind Nginx"
 
 Die Ansible Rolle wird nun installiert und konfiguriert. Die Ansible Rolle wird die Konfiguration von Mailcow entsprechend anpassen und nginx als Service installieren (kein Container), so das dieser Nginx Service die Anfragen an den Mailcow nginx Container weiterleitet.
 
-#### Clonen des "mailcow_behind_nginx" Repositorys
+### Funktionalitäten der Ansible Rolle
+
+**Nginx Reverse Proxy**
+- **HTTP zu HTTPS Weiterleitung** für alle Anfragen
+- **SSL-Terminierung** mit Let's Encrypt Zertifikaten  
+- **Security Headers** für verbesserte Sicherheit
+- **Proxy zu Mailcow** auf Port 8080
+- **Optimierte Performance** Einstellungen
+
+**SSL-Zertifikat Management**
+- **Automatische Erstellung** von Let's Encrypt Zertifikaten
+- **Cron-Job** für Zertifikat-Synchronisation (alle 12 Stunden)
+- **Backup-System** für bestehende Zertifikate
+- **Validierung** der Zertifikate vor Verwendung
+
+**Mailcow Konfiguration**
+- **Docker-basierte Installation** 
+- **Reverse Proxy Modus** aktiviert
+- **SSL-Integration** mit Nginx Zertifikaten
+- **Service-Reload** bei Zertifikat-Updates
+
+**Security Features**
+- **Robuste SSL-Konfiguration** (TLS 1.2/1.3)
+- **HSTS Header** für erweiterte Sicherheit
+- **Firewall-freundliche** Port-Konfiguration
+- **Sichere Dateiberechtigungen**
+
+### Clonen des "mailcow_behind_nginx" Repositorys
 
 ```bash
 cd /opt
 git clone https://github.com/rtulke/mailcow_behind_nginx.git
 cd mailcow_behind_nginx
 ```
+### Ansible Variablen für deinen Server anpassen
 
 Wir bearbeiten die Datei `/opt/mailcow_behind_nginx/vars.yml`
 
@@ -180,50 +216,17 @@ ssh_key_path: "~/.ssh/id_rsa"
 
 **Lokale Installation:**
 ```bash
-ansible-playbook -i inventory/hosts.yml mailcow_setup.yml \
-  -e @vars.yml \
-  --connection=local
+ansible-playbook -i inventory/hosts.yml mailcow_setup.yml -e @vars.yml --connection=local
 ```
 
 **Remote Installation:**
 ```bash
-ansible-playbook -i inventory/hosts.yml mailcow_setup.yml \
-  -e @vars.yml
-```
+ansible-playbook -i inventory/hosts.yml mailcow_setup.yml -e @vars.yml```
 
 **Mit spezifischem SSH-Key:**
 ```bash
-ansible-playbook -i inventory/hosts.yml mailcow_setup.yml \
-  -e @vars.yml \
-  --private-key=~/.ssh/mailserver_key
+ansible-playbook -i inventory/hosts.yml mailcow_setup.yml -e @vars.yml --private-key=~/.ssh/mailserver_key
 ```
-
-## Funktionalitäten
-
-### Nginx Reverse Proxy
-- **HTTP zu HTTPS Weiterleitung** für alle Anfragen
-- **SSL-Terminierung** mit Let's Encrypt Zertifikaten  
-- **Security Headers** für verbesserte Sicherheit
-- **Proxy zu Mailcow** auf Port 8080
-- **Optimierte Performance** Einstellungen
-
-### SSL-Zertifikat Management
-- **Automatische Erstellung** von Let's Encrypt Zertifikaten
-- **Cron-Job** für Zertifikat-Synchronisation (alle 12 Stunden)
-- **Backup-System** für bestehende Zertifikate
-- **Validierung** der Zertifikate vor Verwendung
-
-### Mailcow Konfiguration
-- **Docker-basierte Installation** 
-- **Reverse Proxy Modus** aktiviert
-- **SSL-Integration** mit Nginx Zertifikaten
-- **Service-Reload** bei Zertifikat-Updates
-
-### Security Features
-- **Robuste SSL-Konfiguration** (TLS 1.2/1.3)
-- **HSTS Header** für erweiterte Sicherheit
-- **Firewall-freundliche** Port-Konfiguration
-- **Sichere Dateiberechtigungen**
 
 ## Verzeichnisstruktur
 
@@ -291,9 +294,9 @@ cd /opt/mailcow-dockerized
 sudo docker-compose restart postfix-mailcow dovecot-mailcow
 ```
 
-## Erweiterte Konfiguration
+## Erweiterte Firewall Konfiguration
 
-Wenn Du keine Firewall im Einsatz hast ist es nicht zwingend nötig eine Firewall zu konfigurieren aber sicherlich sinvoll.
+Wenn Du keine Firewall im Einsatz hast oder verwenden möchtest ist es nicht zwingend nötig diese wie hier zu konfigurieren aber sicherlich sinvoll.
 
 ### Firewall anpassen (UFW)
 Wenn Du die UFW Firewall verwendest benötigst Du folgenden zusätzliche Rules
