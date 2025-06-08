@@ -120,7 +120,7 @@ git clone https://github.com/mailcow/mailcow-dockerized
 cd mailcow-dockerized
 ```
 
-#### Clonen dieses Repositorys
+#### Clonen des "mailcow_behind_nginx" Repositorys
 
 ```bash
 cd /opt
@@ -129,6 +129,11 @@ cd mailcow_behind_nginx
 ```
 
 Wir bearbeiten die Datei `/opt/mailcow_behind_nginx/vars.yml`
+
+```bash
+nano /opt/mailcow_behind_nginx/vars.yml
+```
+
 ```yaml
 # Deine Domain für den Mailserver
 mail_domain_name: "mail.deinedomain.de"
@@ -137,7 +142,7 @@ mail_domain_name: "mail.deinedomain.de"
 admin_email: "admin@deinedomain.de"
 
 # Server Details (für Ansible Remote Installation)
-target_server_ip: "192.168.1.100"
+target_server_ip: "111.111.111.111"
 ansible_ssh_user: "root"
 ssh_key_path: "~/.ssh/id_rsa"
 ```
