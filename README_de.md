@@ -222,11 +222,12 @@ ssh_key_path: "~/.ssh/id_rsa"
 ansible-playbook -i inventory/hosts.yml mailcow_setup.yml -e @vars.yml --connection=local
 ```
 
-**Remote Installation:**
+**Remote Installation**
 ```bash
-ansible-playbook -i inventory/hosts.yml mailcow_setup.yml -e @vars.yml```
+ansible-playbook -i inventory/hosts.yml mailcow_setup.yml -e @vars.yml
+```
 
-**Mit spezifischem SSH-Schlüssel**
+**Mit spezifischem SSH Key**
 ```bash
 ansible-playbook -i inventory/hosts.yml mailcow_setup.yml -e @vars.yml --private-key=~/.ssh/mailserver_key
 ```
