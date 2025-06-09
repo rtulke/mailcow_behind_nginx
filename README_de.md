@@ -226,7 +226,7 @@ ansible-playbook -i inventory/hosts.yml mailcow_setup.yml -e @vars.yml --connect
 ```bash
 ansible-playbook -i inventory/hosts.yml mailcow_setup.yml -e @vars.yml```
 
-**Mit spezifischem SSH-Key:**
+**Mit spezifischem SSH-Schlüssel**
 ```bash
 ansible-playbook -i inventory/hosts.yml mailcow_setup.yml -e @vars.yml --private-key=~/.ssh/mailserver_key
 ```
