@@ -236,18 +236,19 @@ ansible-playbook -i inventory/hosts.yml mailcow_setup.yml -e @vars.yml --private
 
 ```
 mailcow-ansible/
-├── mailcow_setup.yml          # Haupt-Playbook
+├── mailcow_setup.yml            # Haupt-Playbook
 ├── inventory/
-│   └── hosts.yml              # Server-Inventar
+│   └── hosts.yml                # Server-Inventar
 ├── group_vars/
-│   └── mailserver.yml         # Gruppenvariablen
+│   └── mailserver.yml           # Gruppenvariablen
 ├── templates/
-│   ├── nginx_mailcow.conf.j2  # Nginx Konfiguration
-│   └── ssl_sync.sh.j2         # SSL Sync Script
-|   └── iptables-firewall.sh   # Iptables Firewall Script
-├── vars.yml.example           # Beispiel-Variablen
-├── vars.yml                   # Deine Variablen (erstellen)
-└── README.md                  # Diese Anleitung
+│   ├── nginx_mailcow.conf.j2    # Nginx Konfiguration
+│   ├── nginx_http_only.conf.j2  # Nginx HTTP-only für certbot
+│   └── ssl_sync.sh.j2           # SSL Sync Script
+|   └── iptables-firewall.sh     # Iptables Firewall Script
+├── vars.yml.example             # Beispiel-Variablen
+├── vars.yml                     # Deine Variablen (erstellen)
+└── README.md                    # Diese Anleitung
 ```
 
 ## Wichtige Pfade auf dem Server
