@@ -1,11 +1,11 @@
 ---
-# Mailcow with an Nginx Reverse Proxy Setup
-# Run: ansible-playbook -i inventory mailcow_setup.yml
+# Mailcow mit Nginx Reverse Proxy Setup
+# Ausführung: ansible-playbook -i inventory mailcow_setup.yml
 #
-# This Playbook install:
-# - Nginx as Reverse Proxy for Mailcow
-# - Let's Encrypt SSL Certificate 
-# - Automatical Cert-Synchronisizaton
+# Dieses Playbook installiert:
+# - Nginx als Reverse Proxy für Mailcow
+# - Let's Encrypt SSL Zertifikate 
+# - Automatische Zertifikat-Synchronisation
 # - Mailcow Docker Setup
 
 - name: "Setup Mailcow with Nginx Reverse Proxy"
@@ -82,26 +82,22 @@
           error_page 500 502 503 504 /50x.html;
         mode: '0644'
 
-    - name: "Create nginx site configuration"
+    - name: "Create temporary HTTP-only nginx configuration"
       template:
-        src: nginx_mailcow.conf.j2
-        dest: "/etc/nginx/sites-available/{{ mail_domain }}"
-        backup: true
+        src: nginx_http_only.conf.j2
+        dest: "/etc/nginx/sites-available/{{ mail_domain }}-temp"
         mode: '0644'
-      notify: restart nginx
 
-    - name: "Enable nginx site"
+    - name: "Enable temporary nginx site"
       file:
-        src: "/etc/nginx/sites-available/{{ mail_domain }}"
-        dest: "/etc/nginx/sites-enabled/{{ mail_domain }}"
+        src: "/etc/nginx/sites-available/{{ mail_domain }}-temp"
+        dest: "/etc/nginx/sites-enabled/{{ mail_domain }}-temp"
         state: link
-      notify: restart nginx
 
     - name: "Remove default nginx site"
       file:
         path: "/etc/nginx/sites-enabled/default"
         state: absent
-      notify: restart nginx
 
     - name: "Create simple index page"
       copy:
@@ -110,11 +106,11 @@
           <!DOCTYPE html>
           <html>
           <head><title>{{ mail_domain }}</title></head>
-          <body><h1>Mail Server</h1></body>
+          <body><h1>Mail Server - Setup in Progress</h1></body>
           </html>
         mode: '0644'
 
-    - name: "Start and enable nginx"
+    - name: "Start and enable nginx (HTTP-only for certbot)"
       systemd:
         name: nginx
         state: started
@@ -122,11 +118,38 @@
 
     - name: "Obtain Let's Encrypt certificate"
       shell: |
-        certbot certonly --nginx -d {{ mail_domain }} \
+        certbot certonly --webroot -w /var/www/{{ mail_domain }} -d {{ mail_domain }} \
           --non-interactive --agree-tos --email {{ admin_email }} \
           --expand
       args:
         creates: "{{ nginx_ssl_path }}/fullchain.pem"
+
+    - name: "Create full nginx site configuration with SSL"
+      template:
+        src: nginx_mailcow.conf.j2
+        dest: "/etc/nginx/sites-available/{{ mail_domain }}"
+        backup: true
+        mode: '0644'
+
+    - name: "Enable full nginx site configuration"
+      file:
+        src: "/etc/nginx/sites-available/{{ mail_domain }}"
+        dest: "/etc/nginx/sites-enabled/{{ mail_domain }}"
+        state: link
+
+    - name: "Remove temporary nginx configuration"
+      file:
+        path: "/etc/nginx/sites-enabled/{{ mail_domain }}-temp"
+        state: absent
+
+    - name: "Test nginx configuration"
+      command: nginx -t
+      changed_when: false
+
+    - name: "Reload nginx with SSL configuration"
+      systemd:
+        name: nginx
+        state: reloaded
 
     - name: "Clone mailcow repository"
       git:
